@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.barcode.mvp.ui.camera.CameraSource;
 import com.barcode.mvp.ui.camera.CameraSourcePreview;
 import com.barcode.mvp.ui.camera.GraphicOverlay;
+import com.barcode.mvp.utils.ResponseListener;
 import com.example.akshay.barcodereader.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -37,7 +38,9 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-public class BarCodeCaptureActivity extends AppCompatActivity {
+import javax.xml.transform.ErrorListener;
+
+public class BarCodeCaptureActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener{
     private static final String TAG = "Barcode-reader";
     public static final String AutoFocus = "AutoFocus";
     public static final String UseFlash = "UseFlash";
@@ -51,6 +54,9 @@ public class BarCodeCaptureActivity extends AppCompatActivity {
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
     private GraphicOverlay<BarcodeGraphic> mGraphicOverlay;
+
+    private ResponseListener verificationResponseListener;
+    private ErrorListener verificationErrorListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -354,16 +360,16 @@ public class BarCodeCaptureActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onBarcodeDetected(Barcode barcode) {
-//        //do something with barcode data returned
-//        if (barcode != null) {
-//            Intent data = new Intent();
-//            data.putExtra(BarcodeObject, barcode);
-//            setResult(CommonStatusCodes.SUCCESS, data);
-//            finish();
-//        }
-//    }
+    @Override
+    public void onBarcodeDetected(Barcode barcode) {
+        //do something with barcode data returned
+        if (barcode != null) {
+            Intent data = new Intent();
+            data.putExtra(BarcodeObject, barcode);
+            setResult(CommonStatusCodes.SUCCESS, data);
+            finish();
+        }
+    }
 
 
 }
