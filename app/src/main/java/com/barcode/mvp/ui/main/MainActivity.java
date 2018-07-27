@@ -11,9 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.barcode.mvp.ui.barcodeCapture.BarCodeCaptureActivity;
 import com.example.akshay.barcodereader.R;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private String url;
     private TextView name;
     private TextView college;
+    private RequestQueue queue;
     Button scan;
     CheckBox autoFocus;
     CheckBox flash;
@@ -43,11 +47,14 @@ public class MainActivity extends AppCompatActivity {
         scan = findViewById(R.id.scan);
         autoFocus = findViewById(R.id.autoFocus);
         flash = findViewById(R.id.flash);
-
+        queue = Volley.newRequestQueue(this);
 
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                name.setVisibility(View.INVISIBLE);
+                college.setVisibility(View.INVISIBLE);
+
                 Intent intent = new Intent(MainActivity.this, BarCodeCaptureActivity.class);
                 intent.putExtra(BarCodeCaptureActivity.AutoFocus, autoFocus.isChecked());
                 intent.putExtra(BarCodeCaptureActivity.UseFlash, flash.isChecked());
@@ -69,46 +76,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialiseRequest(String barcodeValue) {
-//        try {
-        this.url = "http://10.184.27.25:3000/";
-//        } catch (JSONException ex) {
-//            ex.printStackTrace();
-//        }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (response.length() > 0) {
-//                    for (int i = 0; i < response.length(); i++) {
-//                        try {
-//                            // For each repo, add a new line to our repo list.
-//                            JSONObject jsonObj = response.getJSONObject(i);
-//                            String repoName = jsonObj.get("name").toString();
-//                            String lastUpdated = jsonObj.get("updated_at").toString();
-////                            addToRepoList(repoName, lastUpdated);
-//                        } catch (JSONException e) {
-//                            // If there is an error then output this to the logs.
-//                            Log.e("Volley", "Invalid JSON Object.");
-//                        }
-//
-//                    }
-//                    this.response = response;
-                } else {
-//                     The user didn't have any repos.
-//                    setRepoListText("No repos found.");
-                }
-
-            }
-        },
-
-                new Response.ErrorListener() {
+        url = "http:/10.184.27.25:3000/";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // If there a HTTP error then add a note to our repo list.
-//                        setRepoListText("Error while calling REST API");
-                        Log.e("Volley", error.toString());
+                    public void onResponse(JSONObject response) {
+//                        Toast.makeText(MainActivity.this, "hi this api up", Toast.LENGTH_SHORT).show();
+                        try {
+                            if(response.getBoolean("success")){
+                            try {
+                                name.setVisibility(View.VISIBLE);
+                                college.setVisibility(View.VISIBLE);
+                                name.setText(response.getString("name"));
+                                college.setText(response.getString("college"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-        );
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest);
     }
 
 }
