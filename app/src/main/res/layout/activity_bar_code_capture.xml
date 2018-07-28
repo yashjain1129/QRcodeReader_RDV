@@ -11,22 +11,45 @@
 
 <LinearLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/topLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/topLayout"
 android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:keepScreenOn="true">
 
-<com.barcode.mvp.ui.camera.CameraSourcePreview
-    android:id="@+id/preview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/colorAccent"
+            android:layout_height="50dp">
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+
+                android:visibility="visible"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/flash" />
+        </LinearLayout>
+    </RelativeLayout>
+
 
     <com.barcode.mvp.ui.camera.GraphicOverlay
         android:id="@+id/graphicOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</com.barcode.mvp.ui.camera.CameraSourcePreview>
+    <com.barcode.mvp.ui.camera.CameraSourcePreview
+    android:id="@+id/preview"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="0dp"
+    android:layout_height="match_parent">
+
+    </com.barcode.mvp.ui.camera.CameraSourcePreview>
 
 </LinearLayout>
