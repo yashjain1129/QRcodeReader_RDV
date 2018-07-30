@@ -1,55 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--tools:context="com.barcode.mvp.ui.barcodeCapture.BarCodeCaptureActivity">-->
-
-<!--</android.support.constraint.ConstraintLayout>-->
-
-
-<LinearLayout
+<RelativeLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/topLayout"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/topLayout"
 android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:keepScreenOn="true">
-
-    <RelativeLayout
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:background="@color/colorAccent"
-            android:layout_height="50dp">
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-
-                android:visibility="visible"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/flash" />
-        </LinearLayout>
-    </RelativeLayout>
-
-
-    <com.barcode.mvp.ui.camera.GraphicOverlay
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="scan your qr code"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+        tools:layout_width="200dp" />
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:layout_marginTop="100dp"
+    android:background="@color/lightgray">
+    <!--android:layout_gravity="bottom"-->
+    <!--android:layout_marginBottom="50dp"-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp">
+        <com.barcode.mvp.ui.camera.GraphicOverlay
         android:id="@+id/graphicOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <com.barcode.mvp.ui.camera.CameraSourcePreview
-    android:id="@+id/preview"
-    android:layout_width="match_parent"
-    android:layout_marginBottom="0dp"
-    android:layout_height="match_parent">
-
-    </com.barcode.mvp.ui.camera.CameraSourcePreview>
-
-</LinearLayout>
+        <com.barcode.mvp.ui.camera.CameraSourcePreview
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="0dp"
+        android:layout_height="match_parent">
+        </com.barcode.mvp.ui.camera.CameraSourcePreview>
+    </LinearLayout>
+    </RelativeLayout>
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/material_design_11"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>
